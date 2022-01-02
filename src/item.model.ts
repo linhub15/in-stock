@@ -1,5 +1,10 @@
 export interface Item {
   id: string;
-  item: string;
+  name: string;
+  available: boolean;
+}
+
+export interface ItemValue {
+  name: string;
   available: boolean;
 }

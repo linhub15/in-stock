@@ -5,7 +5,7 @@ services:
     container_name: ${MYSQL_HOSTNAME}
     image: mysql/mysql-server:8.0.27
     command: --default-authentication-plugin=mysql_native_password
-    restart: always
+    restart: "no"
     environment:
       MYSQL_DATABASE: ${MYSQL_DB}
       MYSQL_USER: ${MYSQL_USER}
@@ -22,7 +22,7 @@ services:
         target: /var/lib/mysql
   api:
     container_name: instock_api
-    restart: always
+    restart: "no"
     build: 
       context: .
       dockerfile: api.Dockerfile

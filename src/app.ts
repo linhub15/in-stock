@@ -1,10 +1,10 @@
-import { Application, Router } from 'https://deno.land/x/oak/mod.ts';
+import { Application, Router } from './deps.ts';
 import { addItem } from './commands/add_item.ts';
 import { deleteItem } from './commands/delete_item.ts';
 import { listItems } from './commands/list_items.ts';
 import { updateItem } from './commands/update_item.ts';
 import { initDb } from "./gateway/data.ts";
-import { Item } from './item.model.ts';
+import { Item, ItemValue } from './item.model.ts';
 
 // Router
 const router = new Router();
@@ -14,13 +14,13 @@ router
     ctx.response.body = await listItems();
   })
   .post('/items', async (ctx) => {
-    const item = (await ctx.request.body({ type: 'json' }).value) as Item;
+    const item = (await ctx.request.body({ type: 'json' }).value) as ItemValue;
     await addItem(item);
   })
   .post('/items/:id', async (ctx) => {
-    const item = (await ctx.request.body({ type: 'json' }).value) as Item;
-    item.id = ctx.params.id as string;
-    await updateItem(item);
+    const id = ctx.params.id as string;
+    const item = (await ctx.request.body({ type: 'json' }).value) as ItemValue;
+    await updateItem({...{id: id}, ...item} as Item);
   })
   .delete('/items/:id', async (ctx) => {
     const id = ctx.params.id as string;
@@ -34,6 +34,7 @@ const db = initDb({
   username: Deno.env.get("MYSQL_USERNAME") || "",
   password: Deno.env.get("MYSQL_PASSWORD") || "",
 });
+
 
 try {
   await db.sync();

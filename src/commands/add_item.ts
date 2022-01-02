@@ -1,8 +1,8 @@
-import { Item } from "../item.model.ts";
-import { nanoid }  from "https://deno.land/x/nanoid/mod.ts";
+import { Item, ItemValue } from "../item.model.ts";
+import { nanoid }  from "../deps.ts";
 import { Items } from "../gateway/data.ts";
 
-export async function addItem(item: Item) {
-  item.id = nanoid();
+export async function addItem(value: ItemValue) {
+  const item = {...{id: nanoid()}, ...value} as Item;
   await Items.create({...item});
 }

@@ -1,4 +1,4 @@
-import { DataTypes, Database, Model, MySQLConnector } from 'https://deno.land/x/denodb@v1.0.40/mod.ts';
+import { DataTypes, Database, Model, MySQLConnector } from '../deps.ts';
 
 interface DbConfig {
   host: string;
@@ -13,7 +13,7 @@ export class Items extends Model {
 
   static fields = {
     id: { type: DataTypes.STRING, primaryKey: true },
-    item: DataTypes.STRING,
+    name: DataTypes.STRING,
     available: DataTypes.BOOLEAN
   };
 }
